@@ -1,0 +1,31 @@
+{
+  "name": "service-alexa-skill",
+  "version": "1.0.0",
+  "description": "Alexa skill with Hapi ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gunjank/service-alexa-skill.git"
+  },
+  "keywords": [
+    "alexa"
+  ],
+  "author": "gunjan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gunjank/service-alexa-skill/issues"
+  },
+  "engines": {
+    "node": "4.6.x",
+    "npm": "2.15.x"
+  },
+  "homepage": "https://github.com/gunjank/service-alexa-skill#readme",
+  "dependencies": {
+    "hapi": "^16.0.0",
+    "hapi-alexa": "^1.0.3"
+  }
+}
