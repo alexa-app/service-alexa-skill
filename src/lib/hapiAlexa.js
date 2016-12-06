@@ -1,13 +1,18 @@
 'use strict'
 
+
+const log = require('../config/logger');
 const verifier = require('alexa-verifier');
 
 const validateRequest = function (req, reply, next) {
     if (!req.headers.signaturecertchainurl) {
-        return next();
+        reply({
+            status: 'failure',
+            statusCode: "401"
+        });
     }
 
-    let cert_url, er, requestBody, signature;
+    let cert_url, requestBody, signature;
 
     cert_url = req.headers.signaturecertchainurl;
     signature = req.headers.signature;
@@ -20,6 +25,7 @@ const validateRequest = function (req, reply, next) {
                 statusCode: "401"
             });
         } else {
+            console.info('signature validation complete');
             next();
         }
     });

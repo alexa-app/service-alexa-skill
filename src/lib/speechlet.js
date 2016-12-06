@@ -15,8 +15,8 @@ const replyTemplateBuilder = function (msg, shouldEndSession) {
     const template = wrapperTemplalte();
     template.response = {
         outputSpeech: {
-            type: 'PlainText',
-            text: msg
+            type: 'SSML',
+            ssml: '<speak> ' + msg + ' </speak>'
         },
         shouldEndSession: shouldEndSession
     };
@@ -25,22 +25,14 @@ const replyTemplateBuilder = function (msg, shouldEndSession) {
 
 module.exports = {
     setup: function (done) {
-        const template = wrapperTemplalte();
-        template.response = {
-            outputSpeech: {
-                type: 'PlainText',
-                text: "Hello Gunjan, how are you"
-            },
-            shouldEndSession: false
-        };
-        done(template);
+        done(replyTemplateBuilder('Welcome to Citi Bank ! ', false));
     },
     helloIntent: function (payload, done) { // maps hello intent with a "name" slot
         log.info({
             payload: payload
         }, 'helloIntent payload');
 
-        done(replyTemplateBuilder('Welcome to Citi Skill handler, please say Alexa ask Citi account balance for <say-as interpret-as="spell-out">1234</say-as> where <say-as interpret-as="spell-out">1234</say-as> is your voice pin', true));
+        done(replyTemplateBuilder('Welcome to Citibank Skill handler, please say Alexa ask Citibank account balance for 1 2 3 4 ', false));
     },
     accountsIntent: function (payload, done) {
         log.info({
@@ -52,7 +44,7 @@ module.exports = {
             if (undefined !== slots.account_number && null !== slots.account_number && undefined !== slots.account_number.value && null !== slots.account_number.value) {
                 const accountNumberSlot = slots.account_number;
 
-                done(replyTemplateBuilder('Your account balance for ' + accountNumberSlot.value + ' is     $1000 ', false));
+                done(replyTemplateBuilder('Your account balance for <say-as interpret-as="digits"> ' + accountNumberSlot.value + ' </say-as> is     $1000 ', false));
             } else {
                 done(replyTemplateBuilder('Please provide last four digits of your account number', false));
             }
@@ -60,15 +52,26 @@ module.exports = {
             done(replyTemplateBuilder('Please provide last four digits of your account number', false));
         }
     },
+
+    accountBalance: function (payload, done) {
+        log.info({
+            payload: payload
+        }, 'accountBalance');
+        if (undefined !== payload.request.intent.slots && null !== payload.request.intent.slots) {
+            const slots = payload.request.intent.slots;
+            if (undefined !== slots.account_number && null !== slots.account_number && undefined !== slots.account_number.value && null !== slots.account_number.value) {
+                const accountNumberSlot = slots.account_number;
+
+                done(replyTemplateBuilder('Your account balance for <say-as interpret-as="digits"> ' + accountNumberSlot.value + ' </say-as> is     $1000 ', false));
+            } else {
+                done(replyTemplateBuilder('Please provide last four digits of your account number', false));
+            }
+        } else {
+            done(replyTemplateBuilder('Please provide last four digits of your account number', false));
+        }
+    },
+
     tearDown: function (done) {
-        const template = wrapperTemplalte();
-        template.response = {
-            outputSpeech: {
-                type: 'PlainText',
-                text: 'Good bye.'
-            },
-            shouldEndSession: true
-        };
-        done(template);
+        done(replyTemplateBuilder('Good bye.', true));
     }
 }
