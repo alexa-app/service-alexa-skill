@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/gunjank/service-alexa-skill#readme",
   "dependencies": {
+    "alexa-verifier": "0.0.5",
+    "bunyan": "^1.8.5",
     "hapi": "^16.0.0",
     "hapi-alexa": "^1.0.3"
   }
